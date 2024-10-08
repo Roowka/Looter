@@ -9,11 +9,23 @@ import SwiftUI
 
 struct ContentView: View {
     
-    var loot = ["Epée", "Bouclier", "Armure"]
-    
+    @State var loot = ["Epée", "Bouclier", "Armure"]
+
+    func addLoot() {
+        loot.append("Magie de feu")
+    }
+
     var body: some View {
-        List(loot, id:  \.self) { item in
-            Text(item)
+        List {
+            Button(action: {
+                addLoot()
+            }, label: {
+                Text("Ajouter")
+            })
+
+            ForEach(loot, id: \.self) { item in
+                Text(item)
+            }
         }
     }
 }
