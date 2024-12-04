@@ -21,8 +21,8 @@ class Inventory: ObservableObject {
     ]
 
     
-    func addItem(item: String) {
-//        loot.append(item)
+    func addItem(name: String, type: ItemType,rarity: Rarity, game: Game) {
+        loot.append(LootItem(name: name, type: type,rarity: rarity, game: game))
     }
 }
 

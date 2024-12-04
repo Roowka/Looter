@@ -95,7 +95,7 @@ struct AddItemView: View {
             }
             
             Button("Ajouter"){
-                inventory.addItem(item: name)
+                inventory.addItem(name: name, type: type,rarity: rarity, game: game)
                 dismiss()
             }
         }
