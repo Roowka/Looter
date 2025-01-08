@@ -14,6 +14,7 @@ struct AddItemView: View {
     @State private var quantity = 0
     @State private var type : ItemType = .unknown
     @State private var attackStrength = 0
+    @State private var defenseStrength = 0
     @State private var isAttackItem :Bool = false
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var inventory: Inventory
@@ -35,6 +36,16 @@ struct AddItemView: View {
     func decrementAttackStrength() {
         if(attackStrength > 0){
             attackStrength -= 1
+            }
+        }
+    
+    func incrementDefenseStrength() {
+        defenseStrength += 1
+        }
+    
+    func decrementDefenseStrength() {
+        if(defenseStrength > 0){
+            defenseStrength -= 1
             }
         }
     
@@ -90,6 +101,14 @@ struct AddItemView: View {
                                 incrementAttackStrength()
                             } onDecrement: {
                                 decrementAttackStrength()
+                            }
+                    
+                    Stepper {
+                        Text("Défense :  \(defenseStrength)")
+                            } onIncrement: {
+                                incrementDefenseStrength()
+                            } onDecrement: {
+                                decrementDefenseStrength()
                             }
                 }
             }

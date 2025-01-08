@@ -15,6 +15,8 @@ struct LootItem: Identifiable {
     var type: ItemType
     var rarity: Rarity
     var attackStrength: Int? // Optionnel
+    var defenseStrength: Int?
+    var hasCustomImage: Bool?
     var game: Game
 }
 

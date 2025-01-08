@@ -19,53 +19,71 @@ class Inventory: ObservableObject {
         LootItem(name: "Bow of Eternity", type: .bow, rarity: .epic, game: availableGames.randomElement()!),
         LootItem(name: "Unknown Artifact", type: .unknown, rarity: .common, game: availableGames.randomElement()!)
     ]
-
     
-    func addItem(name: String, type: ItemType,rarity: Rarity, game: Game) {
-        loot.append(LootItem(name: name, type: type,rarity: rarity, game: game))
+    func addItem(name: String, type: ItemType, rarity: Rarity, game: Game) {
+        loot.append(LootItem(name: name, type: type, rarity: rarity, game: game))
     }
 }
 
 struct ContentView: View {
     @StateObject var inventory = Inventory()
-    
+    @State private var selectedFeature: LooterFeature = .loot
     @State var showAddItemView = false
 
     var body: some View {
-        NavigationStack {
-            List(inventory.loot) { item in
-                NavigationLink {
-                    LootDetailsView(item: item)
-                } label: {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Circle()
-                                .fill(item.rarity.color)
-                                .frame(width: 12, height: 12)
-                            Text(item.name)
-                                .font(.headline)
-                            Spacer()
-                            Text(item.type.icon)
+        TabView(selection: $selectedFeature) {
+
+            NavigationStack {
+                List(inventory.loot) { item in
+                    NavigationLink {
+                        LootDetailsView(item: item)
+                    } label: {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Circle()
+                                    .fill(item.rarity.color)
+                                    .frame(width: 12, height: 12)
+                                Text(item.name)
+                                    .font(.headline)
+                                Spacer()
+                                Text(item.type.icon)
+                            }
+                            Text("Quantité : \(item.quantity)")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
                         }
-                        Text("Quantité : \(item.quantity)")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
                     }
                 }
-            }
-            .sheet(isPresented: $showAddItemView, content: {
-                AddItemView().environmentObject(inventory)
+                .sheet(isPresented: $showAddItemView, content: {
+                    AddItemView().environmentObject(inventory)
                 })
-            .navigationBarTitle("Inventory")
-                .toolbar(content: { // La barre d'outil de notre page
-                    ToolbarItem(placement: ToolbarItemPlacement.automatic) {
+                .navigationBarTitle("Inventory")
+                .toolbar(content: {
+                    ToolbarItem(placement: .automatic) {
                         Button(action: {
-                            showAddItemView.toggle() // L'action de notre bouton
+                            showAddItemView.toggle()
                         }, label: {
                             Image(systemName: "plus.circle.fill")
                         })
                     }
                 })
+            }
+            .tabItem {
+                Label("Loots", systemImage: "bag.fill")
+            }
+            .tag(LooterFeature.loot)
+            
+            WishListView()
+                .tabItem {
+                    Label("WishList", systemImage: "star.fill")
+                }
+                .tag(LooterFeature.wishList)
+
+            ProfileView()
+                .tabItem {
+                    Label("Profil", systemImage: "person.fill")
+                }
+                .tag(LooterFeature.profile)
         }
     }
 }

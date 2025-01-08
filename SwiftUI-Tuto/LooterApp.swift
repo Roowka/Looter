@@ -14,7 +14,7 @@ struct LooterApp: App {
     var body: some Scene {
         WindowGroup {
             // Pour les tests faut mettre la ligne en dessous
-            // let _ = { isOnboardingDone = false }()
+//             let _ = { isOnboardingDone = false }()
             
             if isOnboardingDone {
                 ContentView()
